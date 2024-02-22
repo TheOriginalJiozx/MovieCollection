@@ -201,7 +201,7 @@ public class Filmsamling {
             }
 
             System.out.println("Enter new movie length in minutes: ");
-            double newLengthInMinutes;
+            double newLengthInMinute;
             while (true) {
                 try {
                     newLengthInMinutes = Double.parseDouble(scanner.nextLine());

@@ -48,6 +48,38 @@ public class MovieCollection {
         }
     }
 
+    public Movie getMovieByTitle(String title) {
+        for (Movie movie : movies) {
+            if (movie.getTitle().equalsIgnoreCase(title)) {
+                return movie;
+            }
+        }
+        return null;
+    }
+
+    public void editMovie(String oldTitle, String newTitle, String director, int yearCreated, boolean isInColor, double lengthInMinutes, String genre) {
+        Iterator<Movie> iterator = movies.iterator();
+        boolean found = false;
+        while (iterator.hasNext()) {
+            Movie movie = iterator.next();
+            if (movie.getTitle().equalsIgnoreCase(oldTitle)) {
+                movie.setTitle(newTitle);
+                movie.setDirector(director);
+                movie.setYearCreated(yearCreated);
+                movie.setIsInColor(isInColor);
+                movie.setLengthInMinutes(lengthInMinutes);
+                movie.setGenre(genre);
+                System.out.println("Movie '" + oldTitle + "' edited successfully.");
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            System.out.println("Movie '" + oldTitle + "' not found.");
+        }
+        System.out.println();
+    }
+
     public void displayMovies() {
         System.out.println();
         if (movies.isEmpty()) {

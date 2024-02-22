@@ -13,7 +13,8 @@ public class Filmsamling {
             System.out.println("2. Delete a movie");
             System.out.println("3. Display all movies");
             System.out.println("4. Search for a movie");
-            System.out.println("5. Exit");
+            System.out.println("5. Edit movie");
+            System.out.println("6. Exit");
             System.out.println();
             System.out.println("Enter your choice: ");
             choice = scanner.next().charAt(0);
@@ -32,12 +33,15 @@ public class Filmsamling {
                     searchMovie(collection, scanner);
                     break;
                 case '5':
+                    editMovie(collection, scanner);
+                    break;
+                case '6':
                     System.out.println("Exiting...");
                     break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
-        } while (choice != '5');
+        } while (choice != '6');
 
         scanner.close();
     }
@@ -82,17 +86,17 @@ public class Filmsamling {
         System.out.println();
         boolean isInColor = false;
         while (true) {
-                System.out.println("Is the movie in color? (yes/no): ");
-                String input = scanner.nextLine().toLowerCase();
-                if (input.equals("yes")) {
-                    isInColor = true;
-                    break;
-                } else if (input.equals("no")) {
-                    break;
-                } else {
-                    System.out.println("Invalid input. Please enter 'yes' or 'no'.");
-                }
+            System.out.println("Is the movie in color? (yes/no): ");
+            String input = scanner.nextLine().toLowerCase();
+            if (input.equals("yes")) {
+                isInColor = true;
+                break;
+            } else if (input.equals("no")) {
+                break;
+            } else {
+                System.out.println("Invalid input. Please enter 'yes' or 'no'.");
             }
+        }
 
         System.out.println();
         int lengthInMinutes;
@@ -148,13 +152,97 @@ public class Filmsamling {
         System.out.println();
     }
 
+    private static void editMovie(MovieCollection collection, Scanner scanner) {
+        System.out.println();
+        scanner.nextLine();
+        System.out.println("Enter movie title: ");
+        System.out.println();
+        String title = scanner.nextLine();
+
+        Movie movie = collection.getMovieByTitle(title);
+        if (movie != null) {
+            System.out.println("Enter new title: ");
+            String newTitle = scanner.nextLine();
+
+            System.out.println("Enter new director name: ");
+            String newDirector;
+            while (true) {
+                newDirector = scanner.nextLine();
+                if (containsNumbers(newDirector)) {
+                    throw new InputMismatchException("Invalid input. Director's name cannot contain numbers.");
+                }
+                break;
+            }
+
+            System.out.println("Enter new release year: ");
+            int newYearCreated;
+            while (true) {
+                try {
+                    newYearCreated = Integer.parseInt(scanner.nextLine());
+                    break;
+                } catch (NumberFormatException e) {
+                    throw new InputMismatchException("Invalid input. Please enter a valid year.");
+                }
+            }
+
+            System.out.println("Is the movie in color? (Yes/No): ");
+            boolean newIsInColor;
+            while (true) {
+                String colorInput = scanner.nextLine().toLowerCase();
+                if (colorInput.equals("yes")) {
+                    newIsInColor = true;
+                    break;
+                } else if (colorInput.equals("no")) {
+                    newIsInColor = false;
+                    break;
+                } else {
+                    throw new InputMismatchException("Invalid input. Please enter 'Yes' or 'No'.");
+                }
+            }
+
+            System.out.println("Enter new movie length in minutes: ");
+            double newLengthInMinutes;
+            while (true) {
+                try {
+                    newLengthInMinutes = Double.parseDouble(scanner.nextLine());
+                    break;
+                } catch (NumberFormatException e) {
+                    throw new InputMismatchException("Invalid input. Please enter a valid length in minutes.");
+                }
+            }
+
+            System.out.println("Enter new genre: ");
+            String newGenre;
+            while (true) {
+                newGenre = scanner.nextLine();
+                if (containsNumbers(newGenre)) {
+                    throw new InputMismatchException("Invalid input. Genre cannot contain numbers.");
+                }
+                break;
+            }
+
+            // Update the movie with the new information
+            movie.setTitle(newTitle);
+            movie.setDirector(newDirector);
+            movie.setYearCreated(newYearCreated);
+            movie.setIsInColor(newIsInColor);
+            movie.setLengthInMinutes(newLengthInMinutes);
+            movie.setGenre(newGenre);
+
+            System.out.println("Movie '" + title + "' has been successfully edited.");
+        } else {
+            System.out.println("Movie '" + title + "' not found.");
+        }
+        System.out.println();
+    }
+
     private static boolean parseYesNo(String input) {
         input = input.toLowerCase();
         return input.equals("yes") || input.equals("y");
     }
 
     private static boolean containsNumbers(String input) {
-        for (char c : input.toCharArray()) {
+        for (char c: input.toCharArray()) {
             if (Character.isDigit(c)) {
                 return true;
             }

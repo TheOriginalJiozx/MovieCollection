@@ -209,7 +209,7 @@ public class Filmsamling {
                         throw new InputMismatchException("Invalid input. Please enter a valid length in minutes.");
                     }
                     break;
-                } catch (InputMismatchException e) {
+                } catch (NumberFormatException e) {
                     System.out.println("Invalid input. Please enter a valid length in minutes.");
                     scanner.nextLine();
                 }
@@ -225,7 +225,6 @@ public class Filmsamling {
                 break;
             }
 
-            // Update the movie with the new information
             movie.setTitle(newTitle);
             movie.setDirector(newDirector);
             movie.setYearCreated(newYearCreated);

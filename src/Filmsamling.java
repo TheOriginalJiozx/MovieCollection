@@ -77,12 +77,12 @@ public class Filmsamling {
             try {
                 System.out.println("Enter the year the movie was released: ");
                 yearCreated = scanner.nextInt();
-                scanner.nextLine(); // Consume newline character
+                scanner.nextLine();
                 break;
             } catch (InputMismatchException e) {
                 System.out.println();
                 System.out.println("Invalid input. Please enter a valid year.");
-                scanner.nextLine(); // Consume invalid input
+                scanner.nextLine();
             }
         }
 
@@ -110,7 +110,7 @@ public class Filmsamling {
             try {
                 System.out.println("How long is the movie in minutes?: ");
                 lengthInMinutes = scanner.nextDouble();
-                scanner.nextLine(); // Consume newline character
+                scanner.nextLine();
                 break;
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input. Please enter a valid length in minutes.");

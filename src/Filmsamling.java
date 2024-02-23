@@ -1,3 +1,4 @@
+// Filmsamling.java
 import java.util.Scanner;
 import java.util.InputMismatchException;
 
@@ -8,6 +9,7 @@ public class Filmsamling {
 
         char choice;
         do {
+            System.out.println();
             System.out.println("Menu:");
             System.out.println("1. Add a movie");
             System.out.println("2. Delete a movie");
@@ -36,6 +38,7 @@ public class Filmsamling {
                     editMovie(collection, scanner);
                     break;
                 case '6':
+                    System.out.println();
                     System.out.println("Exiting...");
                     break;
                 default:
@@ -74,17 +77,17 @@ public class Filmsamling {
             try {
                 System.out.println("Enter the year the movie was released: ");
                 yearCreated = scanner.nextInt();
-                scanner.nextLine();
+                scanner.nextLine(); // Consume newline character
                 break;
             } catch (InputMismatchException e) {
                 System.out.println();
                 System.out.println("Invalid input. Please enter a valid year.");
-                scanner.nextLine();
+                scanner.nextLine(); // Consume invalid input
             }
         }
 
         System.out.println();
-        boolean isInColor = false;
+        boolean isInColor;
         while (true) {
             System.out.println("Is the movie in color? (yes/no): ");
             String input = scanner.nextLine().toLowerCase();
@@ -92,19 +95,22 @@ public class Filmsamling {
                 isInColor = true;
                 break;
             } else if (input.equals("no")) {
+                isInColor = false;
                 break;
             } else {
+                System.out.println();
                 System.out.println("Invalid input. Please enter 'yes' or 'no'.");
+                System.out.println();
             }
         }
 
         System.out.println();
-        int lengthInMinutes;
+        double lengthInMinutes;
         while (true) {
             try {
                 System.out.println("How long is the movie in minutes?: ");
-                lengthInMinutes = scanner.nextInt();
-                scanner.nextLine();
+                lengthInMinutes = scanner.nextDouble();
+                scanner.nextLine(); // Consume newline character
                 break;
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input. Please enter a valid length in minutes.");
@@ -113,25 +119,12 @@ public class Filmsamling {
         }
 
         System.out.println();
-        String genre;
-        while (true) {
-            try {
-                System.out.println("What genre is it?: ");
-                genre = scanner.nextLine();
-                if (containsNumbers(genre)) {
-                    throw new InputMismatchException("Invalid input. Please enter a valid genre.");
-                }
-                break;
-            } catch (InputMismatchException e) {
-                System.out.println();
-                System.out.println(e.getMessage());
-            }
-        }
+        System.out.println("What genre is it?: ");
+        String genre = scanner.nextLine();
 
-        System.out.println();
         collection.addMovie(title, director, yearCreated, isInColor, lengthInMinutes, genre);
-        System.out.println("Movie added successfully!");
         System.out.println();
+        System.out.println("Movie added successfully!");
     }
 
     private static void deleteMovie(MovieCollection collection, Scanner scanner) {
@@ -163,73 +156,27 @@ public class Filmsamling {
         if (movie != null) {
             System.out.println("Enter new title: ");
             String newTitle = scanner.nextLine();
+            movie.setTitle(newTitle);
 
             System.out.println("Enter new director name: ");
-            String newDirector;
-            while (true) {
-                newDirector = scanner.nextLine();
-                if (containsNumbers(newDirector)) {
-                    throw new InputMismatchException("Invalid input. Director's name cannot contain numbers.");
-                }
-                break;
-            }
+            String newDirector = scanner.nextLine();
+            movie.setDirector(newDirector);
 
             System.out.println("Enter new release year: ");
-            int newYearCreated;
-            while (true) {
-                try {
-                    newYearCreated = Integer.parseInt(scanner.nextLine());
-                    break;
-                } catch (NumberFormatException e) {
-                    throw new InputMismatchException("Invalid input. Please enter a valid year.");
-                }
-            }
+            int newYearCreated = scanner.nextInt();
+            movie.setYearCreated(newYearCreated);
 
             System.out.println("Is the movie in color? (Yes/No): ");
-            boolean newIsInColor;
-            while (true) {
-                String colorInput = scanner.nextLine().toLowerCase();
-                if (colorInput.equals("yes")) {
-                    newIsInColor = true;
-                    break;
-                } else if (colorInput.equals("no")) {
-                    newIsInColor = false;
-                    break;
-                } else {
-                    throw new InputMismatchException("Invalid input. Please enter 'Yes' or 'No'.");
-                }
-            }
+            boolean newIsInColor = parseYesNo(scanner.nextLine());
+            movie.setIsInColor(newIsInColor);
 
             System.out.println("Enter new movie length in minutes: ");
-            double newLengthInMinutes;
-            while (true) {
-                try {
-                    newLengthInMinutes = scanner.nextDouble();
-                    if (newLengthInMinutes <= 0) {
-                        throw new InputMismatchException("Invalid input. Please enter a valid length in minutes.");
-                    }
-                    break;
-                } catch (NumberFormatException e) {
-                    System.out.println("Invalid input. Please enter a valid length in minutes.");
-                    scanner.nextLine();
-                }
-            }
-
-            System.out.println("Enter new genre: ");
-            String newGenre;
-            while (true) {
-                newGenre = scanner.nextLine();
-                if (containsNumbers(newGenre)) {
-                    throw new InputMismatchException("Invalid input. Genre cannot contain numbers.");
-                }
-                break;
-            }
-
-            movie.setTitle(newTitle);
-            movie.setDirector(newDirector);
-            movie.setYearCreated(newYearCreated);
-            movie.setIsInColor(newIsInColor);
+            double newLengthInMinutes = scanner.nextDouble();
             movie.setLengthInMinutes(newLengthInMinutes);
+
+            scanner.nextLine();
+            System.out.println("Enter new genre: ");
+            String newGenre = scanner.nextLine();
             movie.setGenre(newGenre);
 
             System.out.println("Movie '" + title + "' has been successfully edited.");
@@ -245,7 +192,7 @@ public class Filmsamling {
     }
 
     private static boolean containsNumbers(String input) {
-        for (char c: input.toCharArray()) {
+        for (char c : input.toCharArray()) {
             if (Character.isDigit(c)) {
                 return true;
             }

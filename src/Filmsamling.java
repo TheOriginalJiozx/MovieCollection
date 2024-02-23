@@ -201,13 +201,17 @@ public class Filmsamling {
             }
 
             System.out.println("Enter new movie length in minutes: ");
-            double newLengthInMinute;
+            double newLengthInMinutes;
             while (true) {
                 try {
-                    newLengthInMinutes = Double.parseDouble(scanner.nextLine());
+                    newLengthInMinutes = scanner.nextDouble();
+                    if (newLengthInMinutes <= 0) {
+                        throw new InputMismatchException("Invalid input. Please enter a valid length in minutes.");
+                    }
                     break;
-                } catch (NumberFormatException e) {
-                    throw new InputMismatchException("Invalid input. Please enter a valid length in minutes.");
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input. Please enter a valid length in minutes.");
+                    scanner.nextLine();
                 }
             }
 

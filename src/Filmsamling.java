@@ -1,55 +1,13 @@
-// Filmsamling.java
 import java.util.Scanner;
 import java.util.InputMismatchException;
 
 public class Filmsamling {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        MovieCollection collection = new MovieCollection();
-
-        char choice;
-        do {
-            System.out.println();
-            System.out.println("Menu:");
-            System.out.println("1. Add a movie");
-            System.out.println("2. Delete a movie");
-            System.out.println("3. Display all movies");
-            System.out.println("4. Search for a movie");
-            System.out.println("5. Edit movie");
-            System.out.println("6. Exit");
-            System.out.println();
-            System.out.println("Enter your choice: ");
-            choice = scanner.next().charAt(0);
-
-            switch (choice) {
-                case '1':
-                    addMovie(collection, scanner);
-                    break;
-                case '2':
-                    deleteMovie(collection, scanner);
-                    break;
-                case '3':
-                    collection.displayMovies();
-                    break;
-                case '4':
-                    searchMovie(collection, scanner);
-                    break;
-                case '5':
-                    editMovie(collection, scanner);
-                    break;
-                case '6':
-                    System.out.println();
-                    System.out.println("Exiting...");
-                    break;
-                default:
-                    System.out.println("Invalid choice. Please try again.");
-            }
-        } while (choice != '6');
-
-        scanner.close();
+        UserInterface ui = new UserInterface();
+        ui.startProgram();
     }
 
-    private static void addMovie(MovieCollection collection, Scanner scanner) {
+    public static void addMovie(MovieCollection collection, Scanner scanner) {
         System.out.println();
         scanner.nextLine();
         System.out.println("Enter the title of the movie: ");
@@ -123,11 +81,11 @@ public class Filmsamling {
         String genre = scanner.nextLine();
 
         collection.addMovie(title, director, yearCreated, isInColor, lengthInMinutes, genre);
-        System.out.println();
         System.out.println("Movie added successfully!");
+        System.out.println();
     }
 
-    private static void deleteMovie(MovieCollection collection, Scanner scanner) {
+    static void deleteMovie(MovieCollection collection, Scanner scanner) {
         System.out.println();
         scanner.nextLine();
         System.out.println("Enter the title of the movie to delete: ");
@@ -136,7 +94,7 @@ public class Filmsamling {
         System.out.println();
     }
 
-    private static void searchMovie(MovieCollection collection, Scanner scanner) {
+    static void searchMovie(MovieCollection collection, Scanner scanner) {
         System.out.println();
         scanner.nextLine();
         System.out.println("Enter the title (or part of) of the movie: ");
@@ -145,36 +103,59 @@ public class Filmsamling {
         System.out.println();
     }
 
-    private static void editMovie(MovieCollection collection, Scanner scanner) {
+    static void editMovie(MovieCollection collection, Scanner scanner) {
         System.out.println();
         scanner.nextLine();
         System.out.println("Enter movie title: ");
-        System.out.println();
         String title = scanner.nextLine();
+        System.out.println();
 
         Movie movie = collection.getMovieByTitle(title);
         if (movie != null) {
             System.out.println("Enter new title: ");
             String newTitle = scanner.nextLine();
             movie.setTitle(newTitle);
+            System.out.println();
 
             System.out.println("Enter new director name: ");
             String newDirector = scanner.nextLine();
             movie.setDirector(newDirector);
+            System.out.println();
 
             System.out.println("Enter new release year: ");
             int newYearCreated = scanner.nextInt();
             movie.setYearCreated(newYearCreated);
+            System.out.println();
 
             System.out.println("Is the movie in color? (Yes/No): ");
-            boolean newIsInColor = parseYesNo(scanner.nextLine());
+            boolean newIsInColor;
+            while (true) {
+                String colorInput = scanner.next().toLowerCase();
+                if (colorInput.equals("yes") || colorInput.equals("no")) {
+                    newIsInColor = colorInput.equals("yes");
+                    break;
+                } else {
+                    System.out.println("Invalid input. Please enter 'Yes' or 'No'.");
+                }
+            }
             movie.setIsInColor(newIsInColor);
+            System.out.println();
 
             System.out.println("Enter new movie length in minutes: ");
-            double newLengthInMinutes = scanner.nextDouble();
+            double newLengthInMinutes;
+            while (true) {
+                try {
+                    newLengthInMinutes = scanner.nextDouble();
+                    scanner.nextLine();
+                    break;
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input. Please enter a valid length in minutes.");
+                    scanner.nextLine();
+                }
+            }
             movie.setLengthInMinutes(newLengthInMinutes);
+            System.out.println();
 
-            scanner.nextLine();
             System.out.println("Enter new genre: ");
             String newGenre = scanner.nextLine();
             movie.setGenre(newGenre);
@@ -183,7 +164,6 @@ public class Filmsamling {
         } else {
             System.out.println("Movie '" + title + "' not found.");
         }
-        System.out.println();
     }
 
     private static boolean parseYesNo(String input) {

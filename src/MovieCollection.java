@@ -3,13 +3,13 @@ import java.util.Iterator;
 import java.util.List;
 
 public class MovieCollection {
-    private List<Movie> movies;
+    static List<Movie> movies;
 
     public MovieCollection() {
         movies = new ArrayList<>();
     }
 
-    public void addMovie(String title, String director, int yearCreated, boolean isInColor, double lengthInMinutes, String genre) {
+    public static void addMovie(String title, String director, int yearCreated, boolean isInColor, double lengthInMinutes, String genre) {
         Movie movie = new Movie(title, director, yearCreated, isInColor, lengthInMinutes, genre);
         movies.add(movie);
     }
@@ -27,27 +27,38 @@ public class MovieCollection {
         System.out.println("Movie '" + title + "' not found.");
     }
 
-    public void searchMovies(String title) {
-        System.out.println();
-        boolean found = false;
+    public static List<Movie> searchMovies(String title) {
+        List<Movie> searchResult = new ArrayList<>();
 
         if (movies.isEmpty()) {
-            System.out.println("Movie title cannot be blank.");
+            return null;
         } else {
-            System.out.println("Movie(s) found: ");
+            boolean found = false;
             for (Movie movie : movies) {
                 if (movie.getTitle().toLowerCase().contains(title.toLowerCase()) || title.equalsIgnoreCase("all")) {
-                    System.out.println(movie.toString());
+                    searchResult.add(movie);
                     found = true;
                 }
             }
             if (!found) {
-                System.out.println("No movie with the title '" + title + "' found in the collection.");
+                return new ArrayList<>();
             }
         }
+
+        return searchResult;
     }
 
-    public Movie getMovieByTitle(String title) {
+    public static List<Movie> searchMoviesByGenre(String genre) {
+        List<Movie> searchResult = new ArrayList<>();
+        for (Movie movie : movies) {
+            if (movie.getGenre().equalsIgnoreCase(genre)) {
+                searchResult.add(movie);
+            }
+        }
+        return searchResult;
+    }
+
+    public static Movie getMovieByTitle(String title) {
         for (Movie movie : movies) {
             if (movie.getTitle().equalsIgnoreCase(title)) {
                 return movie;
@@ -56,7 +67,7 @@ public class MovieCollection {
         return null;
     }
 
-    public void displayMovies() {
+    public static void displayMovies() {
         System.out.println();
         if (movies.isEmpty()) {
             System.out.println("No movies in the collection.");

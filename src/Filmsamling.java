@@ -97,9 +97,22 @@ public class Filmsamling {
     static void searchMovie(MovieCollection collection, Scanner scanner) {
         System.out.println();
         scanner.nextLine();
-        System.out.println("Enter the title (or part of) of the movie: ");
-        String title = scanner.nextLine();
-        collection.searchMovies(title);
+        System.out.println("Do you want to search by title or genre? Enter 'title' or 'genre': ");
+        String searchType = scanner.nextLine().toLowerCase();
+
+        if (searchType.equals("title")) {
+            System.out.println("Enter the title (or part of) of the movie: ");
+            String title = scanner.nextLine();
+            String searchResult = collection.searchMovies(title).toString();
+            System.out.println(searchResult);
+        } else if (searchType.equals("genre")) {
+            System.out.println("Enter the genre of the movies you want to search for: ");
+            String genre = scanner.nextLine();
+            String searchResult = collection.searchMoviesByGenre(genre).toString();
+            System.out.println(searchResult);
+        } else {
+            System.out.println("Invalid search type. Please enter 'title' or 'genre'.");
+        }
         System.out.println();
     }
 

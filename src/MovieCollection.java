@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.InputMismatchException;
 
 public class MovieCollection {
     static List<Movie> movies;

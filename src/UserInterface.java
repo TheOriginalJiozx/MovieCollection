@@ -1,7 +1,7 @@
 import java.util.Scanner;
 public class UserInterface {
     private Scanner scanner = new Scanner(System.in);
-    private MovieCollection collection = new MovieCollection();
+    private Controller controller = new Controller();
 
     public void startProgram() {
         char choice;
@@ -33,19 +33,19 @@ public class UserInterface {
     private void handleChoice(char choice) {
         switch (choice) {
             case '1':
-                addMovie();
+                controller.addMovie();
                 break;
             case '2':
-                deleteMovie();
+                controller.deleteMovie();
                 break;
             case '3':
-                displayAllMovies();
+                controller.displayAllMovies();
                 break;
             case '4':
-                searchMovie();
+                controller.searchMovie();
                 break;
             case '5':
-                editMovie();
+                controller.editMovie();
                 break;
             case '6':
                 System.out.println();
@@ -54,25 +54,5 @@ public class UserInterface {
             default:
                 System.out.println("Invalid choice. Please try again.");
         }
-    }
-
-    private void addMovie() {
-        Filmsamling.addMovie(collection, scanner);
-    }
-
-    private void deleteMovie() {
-        Filmsamling.deleteMovie(collection, scanner);
-    }
-
-    private void displayAllMovies() {
-        collection.displayMovies();
-    }
-
-    private void searchMovie() {
-        Filmsamling.searchMovie(collection, scanner);
-    }
-
-    private void editMovie() {
-        Filmsamling.editMovie(collection, scanner);
     }
 }

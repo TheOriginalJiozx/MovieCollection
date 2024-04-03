@@ -3,11 +3,11 @@ public class Controller {
     private Scanner scanner = new Scanner(System.in);
     private MovieCollection collection = new MovieCollection();
     public void addMovie() {
-        Filmsamling.addMovie(collection, scanner);
+        MovieCollection.addMovie(collection, scanner);
     }
 
     public void deleteMovie() {
-        Filmsamling.deleteMovie(collection, scanner);
+        MovieCollection.deleteMovie(collection, scanner);
     }
 
     public void displayAllMovies() {
@@ -15,10 +15,10 @@ public class Controller {
     }
 
     public void searchMovie() {
-        Filmsamling.searchMovie(collection, scanner);
+        MovieCollection.searchMovie(collection, scanner);
     }
 
     public void editMovie() {
-        Filmsamling.editMovie(collection, scanner);
+        MovieCollection.editMovie(collection, scanner);
     }
 }

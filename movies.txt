@@ -1,0 +1,5 @@
+Movie title: tesaaa
+Name of director: TESA
+Year created: 2004
+The movie's length in minutes: 20.0
+Genre: drama

@@ -1,9 +1,14 @@
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 public class Controller {
     private Scanner scanner = new Scanner(System.in);
     private MovieCollection collection = new MovieCollection();
     public void addMovie() {
         MovieCollection.addMovie(collection, scanner);
+    }
+
+    public void saveMovie() throws FileNotFoundException {
+        MovieCollection.saveMoviesToFile();
     }
 
     public void deleteMovie() {

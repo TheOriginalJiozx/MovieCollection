@@ -1,15 +1,16 @@
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 public class UserInterface {
     private Scanner scanner = new Scanner(System.in);
     private Controller controller = new Controller();
 
-    public void startProgram() {
+    public void startProgram() throws FileNotFoundException {
         char choice;
         do {
             displayMenu();
             choice = getUserChoice();
             handleChoice(choice);
-        } while (choice != '6');
+        } while (choice != '7');
 
         scanner.close();
     }
@@ -21,7 +22,8 @@ public class UserInterface {
         System.out.println("3. Display all movies");
         System.out.println("4. Search for a movie");
         System.out.println("5. Edit movie");
-        System.out.println("6. Exit");
+        System.out.println("6. Save movie");
+        System.out.println("7. Exit");
         System.out.println();
         System.out.println("Enter your choice: ");
     }
@@ -30,7 +32,7 @@ public class UserInterface {
         return scanner.next().charAt(0);
     }
 
-    private void handleChoice(char choice) {
+    private void handleChoice(char choice) throws FileNotFoundException {
         switch (choice) {
             case '1':
                 controller.addMovie();
@@ -48,6 +50,9 @@ public class UserInterface {
                 controller.editMovie();
                 break;
             case '6':
+                controller.saveMovie(); // Add saveMovie() method call
+                break;
+            case '7':
                 System.out.println();
                 System.out.println("Exiting...");
                 break;

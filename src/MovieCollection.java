@@ -1,3 +1,4 @@
+import java.io.*;
 import java.util.*;
 import java.util.InputMismatchException;
 
@@ -80,7 +81,6 @@ public class MovieCollection {
 
     public static void addMovie(MovieCollection collection, Scanner scanner) {
         System.out.println();
-        scanner.nextLine();
         System.out.println("Enter the title of the movie: ");
         String title = scanner.nextLine();
 
@@ -156,9 +156,18 @@ public class MovieCollection {
         System.out.println();
     }
 
+    public static void saveMoviesToFile() throws FileNotFoundException {
+        try (PrintStream output = new PrintStream("movies.txt")) {
+            for (Movie movie : movies) {
+                output.print(movie);
+                System.out.println(movie.getTitle() + " has been saved. Check 'movies.txt'");
+                System.out.println();
+            }
+        }
+    }
+
     static void deleteMovie(MovieCollection collection, Scanner scanner) {
         System.out.println();
-        scanner.nextLine();
         System.out.println("Enter the title of the movie to delete: ");
         String title = scanner.nextLine();
         collection.deleteMovie(title);
@@ -167,7 +176,6 @@ public class MovieCollection {
 
     static void searchMovie(MovieCollection collection, Scanner scanner) {
         System.out.println();
-        scanner.nextLine();
         System.out.println("Do you want to search by title or genre? Enter 'title' or 'genre': ");
         String searchType = scanner.nextLine().toLowerCase();
 
@@ -189,7 +197,6 @@ public class MovieCollection {
 
     static void editMovie(MovieCollection collection, Scanner scanner) {
         System.out.println();
-        scanner.nextLine();
         System.out.println("Enter movie title: ");
         String title = scanner.nextLine();
         System.out.println();

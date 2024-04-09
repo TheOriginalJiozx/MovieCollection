@@ -71,11 +71,10 @@ public class MovieCollection {
     }
 
     public static void displayMoviesSortedByTitle() {
-        readMoviesFromFile("movies.txt");
         if (movies.isEmpty()) {
             System.out.println("No movies in the collection.");
         } else {
-            Collections.sort(movies, Comparator.comparing(Movie::getTitle));
+            Collections.sort(movies, new NameComparator());
             System.out.println("Movies in the collection (sorted by name):");
             for (Movie movie : movies) {
                 System.out.println(movie.toString());
@@ -84,7 +83,6 @@ public class MovieCollection {
     }
 
     public static void displayMovies() {
-        readMoviesFromFile("movies.txt");
         if (movies.isEmpty()) {
             System.out.println("No movies in the collection.");
         } else {
@@ -92,32 +90,6 @@ public class MovieCollection {
             for (Movie movie : movies) {
                 System.out.println(movie.toString());
             }
-        }
-    }
-
-    public static void readMoviesFromFile(String fileName) {
-        try {
-            Scanner scanner = new Scanner(new File(fileName));
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                String[] parts = line.split(", ");
-                if (parts.length >= 6) {
-                    String title = parts[0];
-                    String director = parts[1];
-                    int yearCreated = Integer.parseInt(parts[2]);
-                    boolean isInColor = Boolean.parseBoolean(parts[3]);
-                    double lengthInMinutes = Double.parseDouble(parts[4]);
-                    String genre = parts[5];
-
-                    Movie movie = new Movie(title, director, yearCreated, isInColor, lengthInMinutes, genre);
-                    movies.add(movie);
-                } else {
-                    System.out.println(line);
-                }
-            }
-            scanner.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         }
     }
 
@@ -199,7 +171,7 @@ public class MovieCollection {
     }
 
     public static void saveMoviesToFile() throws FileNotFoundException {
-        try (PrintStream output = new PrintStream(new FileOutputStream("movies.txt", true))) {
+        try (PrintStream output = new PrintStream(new FileOutputStream("movies.csv", true))) {
             for (Movie movie : movies) {
                 output.print(movie);
                 System.out.println(movie.getTitle() + " has been saved. Check 'movies.txt'");

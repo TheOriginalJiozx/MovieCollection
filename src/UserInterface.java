@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class UserInterface {
     private Scanner scanner = new Scanner(System.in);
     private Controller controller = new Controller();
-    private ArrayList<Movie> movies;
+    private ArrayList<Movie> movies = new ArrayList<>();
 
     public void startProgram() throws FileNotFoundException {
         char choice;
@@ -59,10 +59,6 @@ public class UserInterface {
                     controller.displayMoviesSortedByTitle();
                 } else {
                     controller.displayAllMovies();
-                }
-
-                for (Movie data : movies) {
-                    System.out.println(data);
                 }
                 break;
             case '4':

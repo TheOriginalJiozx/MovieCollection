@@ -71,6 +71,7 @@ public class MovieCollection {
     }
 
     public static void displayMoviesSortedByTitle() {
+        ArrayList<Movie> movies = loadMoviesFromFile("movies.csv");
         if (movies.isEmpty()) {
             System.out.println("No movies in the collection.");
         } else {
@@ -83,6 +84,7 @@ public class MovieCollection {
     }
 
     public static void displayMovies() {
+        ArrayList<Movie> movies = loadMoviesFromFile("movies.csv");
         if (movies.isEmpty()) {
             System.out.println("No movies in the collection.");
         } else {
@@ -91,6 +93,42 @@ public class MovieCollection {
                 System.out.println(movie.toString());
             }
         }
+    }
+
+    public static ArrayList<Movie> loadMoviesFromFile(String fileName) {
+        ArrayList<Movie> movies = new ArrayList<>();
+        File file = new File(fileName);
+        if (!file.exists()) {
+            System.out.println("File does not exist.");
+            return movies;
+        }
+        try (Scanner scanner = new Scanner(file, StandardCharsets.UTF_8)) {
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine().trim(); // Trim to remove leading/trailing spaces
+                if (line.isEmpty()) { // Skip empty lines
+                    continue;
+                }
+                String[] parts = line.split(";");
+                if (parts.length >= 6) {
+                    String title = parts[0];
+                    String director = parts[1];
+                    int yearCreated = Integer.parseInt(parts[2]);
+                    boolean isInColor = Boolean.parseBoolean(parts[3]);
+                    double lengthInMinutes = Double.parseDouble(parts[4]);
+                    String genre = parts[5];
+
+                    Movie movie = new Movie(title, director, yearCreated, isInColor, lengthInMinutes, genre);
+                    movies.add(movie);
+                } else {
+                    System.out.println("Invalid data format: " + line);
+                }
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found: " + fileName);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return movies;
     }
 
     public static void addMovie(MovieCollection collection, Scanner scanner) {
@@ -170,13 +208,20 @@ public class MovieCollection {
         System.out.println();
     }
 
-    public static void saveMoviesToFile() throws FileNotFoundException {
-        try (PrintStream output = new PrintStream(new FileOutputStream("movies.csv", true))) {
+    public static void saveMoviesToFile() {
+        try (PrintWriter output = new PrintWriter(new FileWriter("movies.csv", true))) {
             for (Movie movie : movies) {
-                output.print(movie);
-                System.out.println(movie.getTitle() + " has been saved. Check 'movies.txt'");
-                System.out.println();
+                output.print(movie.getTitle() + ";");  // Column A: Title
+                output.print(movie.getDirector() + ";");  // Column B: Director
+                output.print(movie.getYearCreated() + ";");  // Column C: Year Created
+                output.print((movie.isInColor() ? "yes" : "no") + ";");  // Column D: Is in color
+                output.print(movie.getLengthInMinutes() + ";");  // Column E: Length in minutes
+                output.println(movie.getGenre());  // Column F: Genre
+                System.out.println(movie.getTitle() + " has been saved to movies.csv");
             }
+        } catch (IOException e) {
+            System.err.println("Error: Failed to save movies to file.");
+            e.printStackTrace();
         }
     }
 

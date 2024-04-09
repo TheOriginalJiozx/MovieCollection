@@ -1,2 +1,4 @@
-﻿
-Movie{title='add', director='add', yearCreated=2004, isInColor=true, lengthInMinutes=200.0, genre='drama'}
+
+add;add;200;yes;200.0;drama
+test;test;2003;yes;200.0;test
+aee;aee;2003;yes;200.0;drama

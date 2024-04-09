@@ -1,8 +1,11 @@
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 public class UserInterface {
     private Scanner scanner = new Scanner(System.in);
     private Controller controller = new Controller();
+    private ArrayList<Movie> movies;
 
     public void startProgram() throws FileNotFoundException {
         char choice;
@@ -32,6 +35,10 @@ public class UserInterface {
         return scanner.next().charAt(0);
     }
 
+    private String getUserChoiceDisplay() {
+        return scanner.next();
+    }
+
     private void handleChoice(char choice) throws FileNotFoundException {
         switch (choice) {
             case '1':
@@ -41,7 +48,22 @@ public class UserInterface {
                 controller.deleteMovie();
                 break;
             case '3':
-                controller.displayAllMovies();
+                System.out.println("Would you like to list movies sorted by movie names? (yes/no)");
+                String userChoice = getUserChoiceDisplay();
+                while (!(userChoice.equalsIgnoreCase("no") || userChoice.equalsIgnoreCase("yes"))) {
+                    System.out.println("Invalid choice. Please enter 'yes' or 'no'.");
+                    userChoice = getUserChoiceDisplay();
+                }
+                if (userChoice.equalsIgnoreCase("yes")) {
+                    Collections.sort(movies, new NameComparator());
+                    controller.displayMoviesSortedByTitle();
+                } else {
+                    controller.displayAllMovies();
+                }
+
+                for (Movie data : movies) {
+                    System.out.println(data);
+                }
                 break;
             case '4':
                 controller.searchMovie();
@@ -50,7 +72,7 @@ public class UserInterface {
                 controller.editMovie();
                 break;
             case '6':
-                controller.saveMovie(); // Add saveMovie() method call
+                controller.saveMovie();
                 break;
             case '7':
                 System.out.println();

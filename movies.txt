@@ -3,3 +3,8 @@ Name of director: TESA
 Year created: 2004
 The movie's length in minutes: 20.0
 Genre: drama
+Movie title: Edith
+Name of director: Edith
+Year created: 1992
+The movie's length in minutes: 32.0
+Genre: action

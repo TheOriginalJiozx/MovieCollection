@@ -19,6 +19,10 @@ public class Controller {
         collection.displayMovies();
     }
 
+    public void displayMoviesSortedByTitle() {
+        collection.displayMoviesSortedByTitle();
+    }
+
     public void searchMovie() {
         MovieCollection.searchMovie(collection, scanner);
     }

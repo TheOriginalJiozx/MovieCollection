@@ -1,3 +1,6 @@
-add;add;200;yes;200.0;drama
-test;test;2003;yes;200.0;test
-aee;aee;2003;yes;200.0;drama
+Movie Title;Movie Director;Year Created;Is Movie In Color;Length In Minutes;Movie Genre
+test;test;2004;yes;2000.0;drama
+christian;ali;2005;yes;2300.0;action
+christoffer;test;2005;yes;2300.0;action
+omar;ali;2005;yes;2300.0;drama
+omar;hasan;2005;yes;2300.0;action
